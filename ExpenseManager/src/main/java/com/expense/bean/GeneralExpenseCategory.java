@@ -21,6 +21,13 @@ public class GeneralExpenseCategory {
 	@Column(name="EXPENSE_CATEGORY_TYPE_NAME")
 	private String expenseCategoryTypeName;
 
+	public GeneralExpenseCategory() {}
+	
+	public GeneralExpenseCategory(long expenseCategoryTypeId, String expenseCategoryTypeName) {
+		this.expenseCategoryTypeId=expenseCategoryTypeId;
+		this.expenseCategoryTypeName=expenseCategoryTypeName;
+	}
+
 	public long getExpenseCategoryTypeId() {
 		return expenseCategoryTypeId;
 	}

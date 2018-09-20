@@ -21,8 +21,15 @@ public class CoreExpenseCategory {
 	@Column(name="EXPENSE_CATEGORY_NAME")
 	private String categoryName;
 	
-	@Column(name="EXPENSE_CATEGORY_TYPE")
-	private String categoryType;
+	@Column(name="GENERAL_EXPENSE_CATEGORY_ID")
+	private long generalExpenseCategoryId;
+
+	public CoreExpenseCategory(){}
+	public CoreExpenseCategory(long expenseCategoryId, String categoryName, long generalExpenseCategoryId) {
+		this.expenseCategoryId=expenseCategoryId;
+		this.categoryName=categoryName;
+		this.generalExpenseCategoryId=generalExpenseCategoryId;
+	}
 
 	public long getExpenseCategoryId() {
 		return expenseCategoryId;
@@ -40,12 +47,11 @@ public class CoreExpenseCategory {
 		this.categoryName = categoryName;
 	}
 
-	public String getCategoryType() {
-		return categoryType;
+	public long getGeneralExpenseCategoryId() {
+		return generalExpenseCategoryId;
 	}
 
-	public void setCategoryType(String categoryType) {
-		this.categoryType = categoryType;
+	public void setGeneralExpenseCategoryId(long generalExpenseCategoryId) {
+		this.generalExpenseCategoryId = generalExpenseCategoryId;
 	}
-	
 }
