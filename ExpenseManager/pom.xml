@@ -36,14 +36,11 @@
             <groupId>javax.servlet</groupId>
             <artifactId>jstl</artifactId>
         </dependency>
-		<!-- <dependency>
+		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-		</dependency> -->
-		<dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
+		</dependency>
+		
 		<!-- Tomcat embedded container -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

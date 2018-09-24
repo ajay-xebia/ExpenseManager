@@ -15,19 +15,24 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class AccountCategory {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ACCOUNT_CATEGORY_ID")
-	private long accountId;
+	private long accountCategoryId;
 	
-	@Column(name="ACCOUNT_CATEGORY_NAME")
+	@Column(name="ACCOUNT_CATEGORY_NAME", unique=true)
 	private String accountCategoryName;
 
+	public AccountCategory(){}
+	public AccountCategory(long accountCategoryId, String accountCategoryName) {
+		this.accountCategoryName=accountCategoryName;
+		this.accountCategoryId=accountCategoryId;
+	}
+
 	public long getAccountId() {
-		return accountId;
+		return accountCategoryId;
 	}
 
 	public void setAccountId(long accountId) {
-		this.accountId = accountId;
+		this.accountCategoryId = accountId;
 	}
 
 	public String getAccountCategoryName() {

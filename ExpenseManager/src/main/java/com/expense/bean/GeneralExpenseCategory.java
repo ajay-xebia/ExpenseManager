@@ -18,7 +18,7 @@ public class GeneralExpenseCategory {
 	@Column(name="EXPENSE_CATEGORY_TYPE_ID")
 	private long expenseCategoryTypeId;
 	
-	@Column(name="EXPENSE_CATEGORY_TYPE_NAME")
+	@Column(name="EXPENSE_CATEGORY_TYPE_NAME", unique=true)
 	private String expenseCategoryTypeName;
 
 	public GeneralExpenseCategory() {}

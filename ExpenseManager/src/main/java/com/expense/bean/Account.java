@@ -15,7 +15,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class Account {
 	
 	@Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="ACCOUNT_ID")
 	private long accountId;
 	
@@ -27,6 +26,15 @@ public class Account {
 	
 	@Column(name="BALANCE")
 	private double balance;
+	
+	public Account(){}
+	
+	public Account(long accountId, String accountName, String accountCategory, double balance) {
+		this.accountId=accountId;
+		this.accountName=accountName;
+		this.accountCategory=accountCategory;
+		this.balance=balance;
+	}
 
 	public long getAccountId() {
 		return accountId;

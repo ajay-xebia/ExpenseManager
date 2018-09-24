@@ -81,8 +81,9 @@
 	</table>
 </form>
 
-<h3>List Of Users</h3>
+<h3>List Of Expenses</h3>
 <br>
+<div id="test"></div>
 <table class="table table-hover">
 	<thead>
 		<tr>
@@ -103,4 +104,14 @@
 		</tr>
 	</tbody>
 </table>
+<script>
+$.ajax({url: "/generalExpenseCategories", success: function(result){
+	console.log(result);
+    $("#test").text(result);
+}});
+</script>
+<!--
+
+//-->
+</script>
 <jsp:include page="footer.jsp"></jsp:include>
