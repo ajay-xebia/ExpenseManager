@@ -12,56 +12,25 @@
 		<tr>
 			<td><b>From Account</b></td>
 			<td>
-				<select name="accountId">
-				  <option value="Food&Others">AMEX</option>
-				  <option value="Travel">ICICI</option>
+				<select id="accounts" name="accounts">
 				</select>
 			</td>
 		</tr>
 		<tr>
-			<td><b>Expense Category</b></td>
+			<td><b>General Expense Category</b></td>
 			<td>
-				<select name="expenseCategory">
-				  <option value="MONTHLY">MONTHLY</option>
-				  <option value="DAILY">DAILY</option>
-				  <option value="OPTIONAL">OPTIONAL</option>
-				  <option value="UNPLANNED">UNPLANNED</option>
-				  <option value="SAVINGS">SAVINGS</option>
+				<select id="generalExpenseCategories" name="generalExpenseCategories">
 				</select>
 			</td>
 
 		</tr>
 		<tr>
-			<td><b>Expense Sub Category</b></td>
+			<td><b>Core Expense Category</b></td>
 			<td>
-				<select name="expenseSubCategory">
-				  <option value="Food&Others">Food&Others</option>
-				  <option value="Travel">Travel</option>
+				<select id="coreExpenseCategories" name="coreExpenseCategories">
 				</select>
 			</td>
 
-		</tr>
-		<tr>
-			<td><b>Payment Category</b></td>
-			<td>
-				<select name="paymentCategory">
-				  <option value="CreditCard">CreditCard</option>
-				  <option value="Debit">Debit</option>
-				  <option value="Cash">Cash</option>
-				  <option value="Wallet">Wallet</option>
-				  <option value="Savings">Savings</option>
-				</select>
-			</td>
-
-		</tr>
-		<tr>
-			<td><b>Payment Sub Category</b></td>
-			<td>
-				<select name="paymentSubCategory">
-				  <option value="AMEX">AMEX</option>
-				  <option value="ICICI">ICICI</option>
-				</select>
-			</td>
 		</tr>
 		<tr>
 			<td><b>Wallet Refilled</b></td>
@@ -75,7 +44,7 @@
 		<tr>
 			<td></td>
 			<td>
-				<button type="submit" class="btn btn-primary">Add Expense</button>
+				<button id="add-expense" type="submit" class="btn btn-primary">Add Expense</button>
 			</td>
 		</tr>
 	</table>
@@ -89,29 +58,67 @@
 		<tr>
 			<th><b>Date</b></th>
 			<th><b>Amount</b></th>
-			<th><b>Expense Category</b></th>
-			<th><b>Expense Sub Category</b></th>
+			<th><b>Account</b></th>
+			<th><b>AccountCategory</b></th>
+			<th><b>General</b></th>
+			<th><b>Core</b></th>
+			<th><b>WalletRefilled</b></th>
 			<th><b>Description</b></th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
+		
 	</tbody>
 </table>
 <script>
 $.ajax({url: "/generalExpenseCategories", success: function(result){
 	console.log(result);
-    $("#test").text(result);
+    //$("#test").text("result----"+JSON.stringify(result._embedded.generalExpenseCategories));
+    var generalExpenseCategories = result._embedded.generalExpenseCategories;
+    $.each(generalExpenseCategories, function( index, value ) {
+    	  $("#generalExpenseCategories").append("<option name="+value.expenseCategoryTypeName+">"+value.expenseCategoryTypeName+"</option>")
+    });
 }});
-</script>
-<!--
 
-//-->
+$.ajax({url: "/coreExpenseCategories", success: function(result){
+	console.log(result);
+    //$("#test").text("result----"+JSON.stringify(result._embedded.coreExpenseCategories));
+    var coreExpenseCategories = result._embedded.coreExpenseCategories;
+    $.each(coreExpenseCategories, function( index, value ) {
+    	  $("#coreExpenseCategories").append("<option name="+value.categoryName+">"+value.categoryName+"</option>")
+    });
+}});
+
+$.ajax({url: "/accounts", success: function(result){
+	console.log(result);
+    //$("#test").text("result----"+JSON.stringify(result._embedded.accounts));
+    var accounts = result._embedded.accounts;
+    $.each(accounts, function( index, value ) {console.log(index+": "+JSON.stringify(value));
+    	  $("#accounts").append("<option name="+value.accountName+">"+value.accountName+"</option>")
+    });
+}});
+
+$.ajax({url: "/expenses", success: function(result){
+	console.log(result);
+    $("#test").text("result----"+JSON.stringify(result._embedded.expenses));
+    var expenses = result._embedded.expenses;
+    $.each(expenses, function( index, value ) {console.log(index+": "+JSON.stringify(value));
+    	  //$("#accounts").append("<option name="+value.accountName+">"+value.accountName+"</option>")
+    });
+}});
+
+$( "#add-expense" ).click(function() {
+	var data={};
+	var url = "/expenses"
+	$.ajax({
+		type: "POST",
+		url: url,
+		data: JSON.stringify(data),
+		dataType: "application/json",
+		contentType: "application/json"
+	}
+});
+	
+}
 </script>
 <jsp:include page="footer.jsp"></jsp:include>

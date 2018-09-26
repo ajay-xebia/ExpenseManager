@@ -35,6 +35,11 @@ public class AppDataController {
 		this.accountRepository=accountRepository;
 	}
 	
+	@RequestMapping(value="", method=RequestMethod.GET)
+    public String test(ModelMap model){
+    	return "expense";
+    }
+	
 	@RequestMapping(value="/general", method=RequestMethod.GET)
     public String prepareGeneral(ModelMap model){
 		generalExpenseCategoryRepository.save(new GeneralExpenseCategory(1, "DAILY"));
