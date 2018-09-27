@@ -1,5 +1,7 @@
 package com.expense.controller;
 
+import java.sql.Date;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -9,10 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import com.expense.bean.Account;
 import com.expense.bean.AccountCategory;
 import com.expense.bean.CoreExpenseCategory;
+import com.expense.bean.Expense;
 import com.expense.bean.GeneralExpenseCategory;
 import com.expense.repository.AccountCategoryRepository;
 import com.expense.repository.AccountRepository;
 import com.expense.repository.CoreExpenseCategoryRepository;
+import com.expense.repository.ExpenseRepository;
 import com.expense.repository.GeneralExpenseCategoryRepository;
 
 @Controller
@@ -23,16 +27,19 @@ public class AppDataController {
 	private final CoreExpenseCategoryRepository coreExpenseCategoryRepository;
 	private final AccountCategoryRepository accountCategoryRepository;
 	private final AccountRepository accountRepository;
+	private final ExpenseRepository expenseRepository;
 	
 	@Autowired
 	public AppDataController(GeneralExpenseCategoryRepository generalExpenseCategoryRepository, 
 			CoreExpenseCategoryRepository coreExpenseCategoryRepository,
 			AccountCategoryRepository accountCategoryRepository,
-			AccountRepository accountRepository) {
+			AccountRepository accountRepository,
+			ExpenseRepository expenseRepository) {
 		this.generalExpenseCategoryRepository = generalExpenseCategoryRepository;
 		this.coreExpenseCategoryRepository=coreExpenseCategoryRepository;
 		this.accountCategoryRepository=accountCategoryRepository;
 		this.accountRepository=accountRepository;
+		this.expenseRepository=expenseRepository;
 	}
 	
 	@RequestMapping(value="", method=RequestMethod.GET)
@@ -88,13 +95,14 @@ public class AppDataController {
     	System.out.println("================================================DB Entries: {}"+ accountCategoryRepository.count());
 		return "expense";
 	}
+	
 	@RequestMapping(value="/accounts", method=RequestMethod.GET)
 	public String prepareAccounts(ModelMap model){
 		accountRepository.save(new Account(1, "AMEXCreditCard", "CreditCard", 0));
     	accountRepository.save(new Account(2, "ICICICreditCard", "CreditCard", 0));
     	accountRepository.save(new Account(3, "HDFCCreditCard", "CreditCard", 0));
     	
-    	accountRepository.save(new Account(4, "ICICIBank", "Bank", 0));
+    	accountRepository.save(new Account(4, "ICICIBank", "Bank", 91000));
     	
     	accountRepository.save(new Account(5, "Cash", "Cash", 0)); 
     	
@@ -113,5 +121,25 @@ public class AppDataController {
     	return "expense";
 	}
 	
-
+	@RequestMapping(value="/expenses", method=RequestMethod.GET)
+	public String dummyExpenses(ModelMap model){
+		expenseRepository.save(new Expense(new Date(5,6,2018), 9000, "FoodOthers", 			"DAILY", 	"AMEXCreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 6000, "Travel", 				"DAILY", 	"AMEXCreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 4000, "Entertainment", 		"OPTIONAL", "ICICICreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 2000, "Study", 				"OPTIONAL", "ICICICreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 2000, "Events", 				"OPTIONAL", "ICICICreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 1200, "ForGhr", 				"OPTIONAL", "ICICICreditCard", "CreditCard", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 3300, "Medical", 			"UNPLANNED", "AMEXCreditCard", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 2000, "InfrequentShopping", 	"UNPLANNED", "AMEXCreditCard", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 11800, "PPF", 				"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 5000, "NPS", 				"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 3200, "Insurance", 			"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 5000, "Donation", 			"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 20000, "ForHome", 			"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 15000, "MutualFunds", 		"SAVINGS", 	"ICICIBank", "Bank", "", false));
+		expenseRepository.save(new Expense(new Date(5,6,2018), 10000, "Emergency", 			"SAVINGS", 	"ICICIBank", "Bank", "", false));
+    	System.out.println("================================================DB Entries: {}"+ expenseRepository.count());
+    	return "expense";
+	}
+	
 }

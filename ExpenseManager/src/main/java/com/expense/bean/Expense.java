@@ -55,7 +55,21 @@ public class Expense {
     
     @Column(name="WALLET_REFILL")
     private boolean walletRefillFlag;
-
+    
+    public Expense(){}
+    public Expense(Date expenseDate, double amount, String coreExpenseCategory, 
+    		String generalExpenseCategory, String accountName, String accountCategory,
+    		String description, boolean walletRefillFlag){
+    	this.expenseDate=expenseDate;
+    	this.amount=amount;
+    	this.coreExpenseCategory=coreExpenseCategory;
+    	this.generalExpenseCategory=generalExpenseCategory;
+    	this.accountName=accountName;
+    	this.accountCategory=accountCategory;
+    	this.description=description;
+    	this.walletRefillFlag=walletRefillFlag;
+    }
+    
 	public long getExpenseId() {
 		return expenseId;
 	}
