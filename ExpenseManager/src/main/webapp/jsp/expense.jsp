@@ -3,7 +3,7 @@
 
 <h3>Expense Manager</h3>
 <br>
-<form action='/index/add' method='post'>
+<form>
 	<table class='table table-hover table-responsive table-bordered'>
 		<tr>
 			<td><b>Amount</b></td>
@@ -12,14 +12,14 @@
 		<tr>
 			<td><b>From Account</b></td>
 			<td>
-				<select id="accounts" name="accounts">
+				<select id="accountName" name="accountName">
 				</select>
 			</td>
 		</tr>
 		<tr>
 			<td><b>General Expense Category</b></td>
 			<td>
-				<select id="generalExpenseCategories" name="generalExpenseCategories">
+				<select id="generalExpenseCategory" name="generalExpenseCategory">
 				</select>
 			</td>
 
@@ -27,7 +27,7 @@
 		<tr>
 			<td><b>Core Expense Category</b></td>
 			<td>
-				<select id="coreExpenseCategories" name="coreExpenseCategories">
+				<select id="coreExpenseCategory" name="coreExpenseCategory">
 				</select>
 			</td>
 
@@ -48,7 +48,7 @@
 		<tr>
 			<td></td>
 			<td>
-				<button id="add-expense" type="submit" class="btn btn-primary">Add Expense</button>
+				<button id="add-expense" type="button" class="btn btn-primary">Add Expense</button>
 			</td>
 		</tr>
 	</table>
@@ -76,29 +76,29 @@
 </table>
 <script>
 $.ajax({url: "/generalExpenseCategories", success: function(result){
-	//console.log(result);
+	console.log("general: "+result);
     //$("#test").text("result----"+JSON.stringify(result._embedded.generalExpenseCategories));
     var generalExpenseCategories = result._embedded.generalExpenseCategories;
     $.each(generalExpenseCategories, function( index, value ) {
-    	  $("#generalExpenseCategories").append("<option name="+value.expenseCategoryTypeName+">"+value.expenseCategoryTypeName+"</option>")
+    	  $("#generalExpenseCategory").append("<option name="+value.expenseCategoryTypeName+">"+value.expenseCategoryTypeName+"</option>");
     });
 }});
 
 $.ajax({url: "/coreExpenseCategories", success: function(result){
-	//console.log(result);
+	console.log("core: "+result);
     //$("#test").text("result----"+JSON.stringify(result._embedded.coreExpenseCategories));
     var coreExpenseCategories = result._embedded.coreExpenseCategories;
     $.each(coreExpenseCategories, function( index, value ) {
-    	  $("#coreExpenseCategories").append("<option name="+value.categoryName+">"+value.categoryName+"</option>")
+    	  $("#coreExpenseCategory").append("<option name="+value.categoryName+">"+value.categoryName+"</option>")
     });
 }});
 
 $.ajax({url: "/accounts", success: function(result){
-	//console.log(result);
+	console.log(result);
     //$("#test").text("result----"+JSON.stringify(result._embedded.accounts));
     var accounts = result._embedded.accounts;
-    $.each(accounts, function( index, value ) {console.log(index+": "+JSON.stringify(value));
-    	  $("#accounts").append("<option name="+value.accountName+">"+value.accountName+"</option>")
+    $.each(accounts, function( index, value ) {//console.log(index+": "+JSON.stringify(value));
+    	  $("#accountName").append("<option name="+value.accountName+" category="+value.accountCategory+">"+value.accountName+"</option>")
     });
 }});
 
@@ -142,15 +142,24 @@ $.ajax({url: "/expenses", success: function(result){
     	  }
     	  
     });
-    $("#test").text("result----> daily: "+daily+
-    		", optional: "+optional+
-    		", unplanned: "+unplanned+
-    		", monthly: "+monthly+
-    		", savings: "+savings);
+    $("#test").text("result----> daily: "+expensesAnalytics.byExpenseTypes.daily+
+    		", optional: "+expensesAnalytics.byExpenseTypes.optional+
+    		", unplanned: "+expensesAnalytics.byExpenseTypes.unplanned+
+    		", monthly: "+expensesAnalytics.byExpenseTypes.monthly+
+    		", savings: "+expensesAnalytics.byExpenseTypes.savings);
 }});
 
 $( "#add-expense" ).click(function() {
 	var data={};
+	data["expenseDate"]="2018-01-01";
+	data["amount"]=$("#amount").val();
+	data["accountName"]=$("#accountName").val();
+	data["accountCategory"]=$("#accountName :selected").attr("category");
+	data["generalExpenseCategory"]=$("#generalExpenseCategory").val();
+	data["coreExpenseCategory"]=$("#coreExpenseCategory").val();
+	data["walletRefilled"]=$("#walletRefilled").val();
+	data["description"]=$("#description").val();
+	console.log("data: "+data);
 	var url = "/expenses"
 	$.ajax({
 		type: "POST",
